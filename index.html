@@ -67,8 +67,8 @@ footer{text-align:center;padding:22px;color:#62758a;font-size:13px}
 <script>
 /* Setup guide: replace these two placeholders with Supabase Project URL and anon/public key.
    Never paste the service_role key into this public website. */
-const SUPABASE_URL = "PASTE_SUPABASE_PROJECT_URL_HERE";
-const SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_KEY_HERE";
+const SUPABASE_URL = "https://mrkahyuhkbdfoztpzqhy.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "sb_publishable_5yR9MTb6i3DKtOCfrkubUQ_uBBMu9EO";
 let sb = null, currentUser = null, contributions = [], galleryItems = [];
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("PASTE_") && !SUPABASE_ANON_KEY.includes("PASTE_");
 if (configured && window.supabase) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
