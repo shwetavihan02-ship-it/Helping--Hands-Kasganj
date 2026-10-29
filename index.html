@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Helping Hands Kasganj</title>
+<style>
+:root{--navy:#102a43;--blue:#1769aa;--gold:#f4b942;--bg:#f4f7fb;--ink:#203040}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,#102a43,#1769aa);color:white;padding:24px 16px}
+.wrap{max-width:1050px;margin:auto;padding:0 14px}.brand{display:flex;gap:14px;align-items:center}.logo{font-size:36px;background:#ffffff20;border:1px solid #ffffff55;border-radius:16px;padding:8px 13px}
+h1{margin:0;font-size:clamp(25px,4vw,38px)}header p{margin:6px 0 0;color:#e6f1ff}.tag{display:inline-block;background:var(--gold);color:#172b4d;border-radius:99px;padding:5px 12px;font-weight:700;margin-top:14px}
+main{padding:18px 0 35px}.notice{background:#fff8df;border:1px solid #f2d47b;padding:12px 14px;border-radius:12px;margin-bottom:16px;font-size:14px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab,button{border:0;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer}.tab{background:white;color:var(--navy);border:1px solid #d8e2ed}.tab.active,.primary{background:var(--blue);color:white}.secondary{background:var(--gold);color:#152c44}.light{background:#eaf0f6;color:var(--navy)}.danger{background:#b42318;color:white}
+.panel{background:white;border:1px solid #e0e7ef;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 5px 18px #102a4309}.panel h2{margin:0 0 12px;color:var(--navy)}.muted{color:#607184;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f0f6fc;border-radius:12px;padding:13px}.stat b{display:block;font-size:24px;color:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}label{font-size:14px;font-weight:650}input,select,textarea{font:inherit;padding:11px;border:1px solid #cbd5e1;border-radius:9px;width:100%;background:white}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:500px}th,td{text-align:left;padding:10px;border-bottom:1px solid #e5ebf1}th{background:#f0f6fc;color:var(--navy)}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.photo{border:1px solid #e0e7ef;border-radius:12px;overflow:hidden;background:white}.photo img{width:100%;height:190px;object-fit:cover;display:block}.photo .caption{padding:10px;font-size:14px}.photo .caption b{display:block}
+.hidden{display:none!important}.status{padding:9px 12px;border-radius:9px;margin-top:10px;background:#edf7ed;color:#226b35}.error{background:#fff0f0;color:#a11}.small{font-size:12px;color:#607184}
+footer{text-align:center;padding:22px;color:#62758a;font-size:13px}
+@media(max-width:650px){.grid,.stats{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.photo img{height:145px}.panel{padding:14px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand"><div class="logo">🤝</div><div><h1>Helping Hands Kasganj</h1><p>मानवता की सेवा — जरूरतमंदों के सहयोग में एक कदम</p></div></div><span class="tag">सहयोग में पारदर्शिता • सेवा में समर्पण</span></div></header>
+<main class="wrap">
+<div class="notice"><b>सेवा और गोपनीयता:</b> वितरण की तस्वीरें अपलोड करने से पहले लोगों की सहमति लें। बच्चों, निजी दस्तावेज़ों और संवेदनशील जानकारी वाली तस्वीरें सार्वजनिक न करें।</div>
+<nav>
+<button class="tab active" data-view="contrib">आर्थिक सहयोग</button>
+<button class="tab" data-view="diwali">दीवाली सहायता</button>
+<button class="tab" data-view="gallery">सामग्री वितरण फोटो गैलरी</button>
+<button class="tab" data-view="admin">🔐 एडमिन लॉगिन</button>
+</nav>
+
+<section id="view-contrib" class="view">
+<div class="panel"><h2>आर्थिक सहयोग का विवरण</h2><div class="stats"><div class="stat"><span>कुल सहयोगकर्ता</span><b id="totalPeople">—</b></div><div class="stat"><span>कुल सहयोग राशि</span><b id="totalAmount">—</b></div><div class="stat"><span>सूची की स्थिति</span><b id="dbStatus">कनेक्शन बाकी</b></div></div>
+<p class="muted">नाम या विकास खण्ड से खोजें। लाइव डेटा देखने के लिए Supabase सेटअप पूरा होना चाहिए।</p>
+<div class="grid"><div class="field"><label>नाम खोजें</label><input id="searchName" placeholder="नाम लिखें"></div><div class="field"><label>विकास खण्ड</label><select id="searchBlock"><option value="">सभी विकास खण्ड</option><option>अमांपुर</option><option>गंजडुंडवारा</option><option>कासगंज</option><option>पटियाली</option><option>सहावर</option><option>सोरों</option><option>सिढ़पुरा</option></select></div></div>
+<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>नाम</th><th>विकास खण्ड</th><th>सहयोग राशि</th><th>अभियान</th></tr></thead><tbody id="contribRows"><tr><td colspan="4">Supabase कॉन्फ़िगरेशन के बाद रिकॉर्ड दिखाई देंगे।</td></tr></tbody></table></div></div>
+</section>
+
+<section id="view-diwali" class="view hidden"><div class="panel"><h2>दीवाली — जरूरतमंदों को सहयोग</h2><p>इस अभियान के सहयोग रिकॉर्ड नीचे दिखाई देंगे।</p><div class="tablewrap"><table><thead><tr><th>नाम</th><th>विकास खण्ड</th><th>सहयोग राशि</th></tr></thead><tbody id="diwaliRows"><tr><td colspan="3">डेटाबेस से कनेक्शन होने पर रिकॉर्ड दिखाई देंगे।</td></tr></tbody></table></div></div></section>
+
+<section id="view-gallery" class="view hidden"><div class="panel"><h2>📸 सामग्री वितरण फोटो गैलरी</h2><p class="muted">दीवाली किट, राशन, कपड़े या अन्य सामग्री वितरित करते समय की तस्वीरें यहाँ दिखेंगी।</p><div id="galleryGrid" class="gallery"><p>गैलरी लोड करने के लिए Supabase सेटअप पूरा करें।</p></div></div></section>
+
+<section id="view-admin" class="view hidden">
+<div class="panel"><h2>🔐 एडमिन पैनल</h2><p class="muted">एडमिन ही रिकॉर्ड और गैलरी में बदलाव कर सकता है। पहले Supabase में एडमिन यूज़र बनाना जरूरी है।</p>
+<div id="loginBox">
+<div class="grid"><div class="field"><label>एडमिन ईमेल</label><input type="email" id="email" autocomplete="username" placeholder="आपका ईमेल"></div><div class="field"><label>पासवर्ड</label><input type="password" id="password" autocomplete="current-password" placeholder="पासवर्ड"></div></div>
+<div class="actions"><button class="primary" id="loginBtn">लॉगिन करें</button></div><div id="loginMsg" class="muted"></div>
+</div>
+<div id="adminBox" class="hidden">
+<p>लॉगिन सक्रिय है।</p><div class="actions"><button class="light" id="logoutBtn">लॉगआउट</button></div>
+<hr><h3>सहयोग रिकॉर्ड जोड़ें</h3>
+<div class="grid"><div class="field"><label>नाम</label><input id="cName"></div><div class="field"><label>विकास खण्ड</label><select id="cBlock"><option>अमांपुर</option><option>गंजडुंडवारा</option><option>कासगंज</option><option>पटियाली</option><option>सहावर</option><option>सोरों</option><option>सिढ़पुरा</option></select></div><div class="field"><label>राशि (₹)</label><input type="number" id="cAmount" min="0"></div><div class="field"><label>अभियान</label><select id="cCampaign"><option value="general">आर्थिक सहयोग विवरण</option><option value="diwali">दीवाली — जरूरतमंदों को सहयोग</option></select></div></div>
+<div class="actions"><button class="primary" id="addContribution">रिकॉर्ड सेव करें</button></div>
+<hr><h3>सामग्री वितरण की तस्वीरें जोड़ें</h3>
+<div class="grid"><div class="field"><label>कार्यक्रम / वितरण का विवरण</label><input id="gTitle" placeholder="जैसे: दीपावली सामग्री वितरण"></div><div class="field"><label>विकास खण्ड</label><select id="gBlock"><option>अमांपुर</option><option>गंजडुंडवारा</option><option>कासगंज</option><option>पटियाली</option><option>सहावर</option><option>सोरों</option><option>सिढ़पुरा</option></select></div><div class="field"><label>वितरण की तारीख</label><input type="date" id="gDate"></div><div class="field"><label>फोटो चुनें (एक साथ कई)</label><input type="file" id="gFiles" accept="image/*" multiple></div></div>
+<p class="small">मोबाइल पर कैमरा/गैलरी का विकल्प फोन और ब्राउज़र के अनुसार दिख सकता है। प्रति फोटो 5 MB तक रखें।</p><div class="actions"><button class="secondary" id="uploadGallery">फोटो गैलरी में अपलोड करें</button></div><div id="adminMsg"></div>
+<hr><h3>गैलरी प्रबंधन</h3><div id="adminGallery" class="gallery"></div>
+</div>
+</div>
+</section>
+</main>
+<footer>Helping Hands Kasganj · यह प्रोजेक्ट Supabase से जोड़ने के बाद लाइव डेटा इस्तेमाल करेगा।</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* Setup guide: replace these two placeholders with Supabase Project URL and anon/public key.
+   Never paste the service_role key into this public website. */
+const SUPABASE_URL = "PASTE_SUPABASE_PROJECT_URL_HERE";
+const SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_KEY_HERE";
+let sb = null, currentUser = null, contributions = [], galleryItems = [];
+const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("PASTE_") && !SUPABASE_ANON_KEY.includes("PASTE_");
+if (configured && window.supabase) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b===btn));
+ document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
+ document.getElementById("view-"+btn.dataset.view).classList.remove("hidden");
+ if(btn.dataset.view==="gallery") loadGallery();
+ if(btn.dataset.view==="admin" && currentUser) loadAdminGallery();
+}));
+function rupees(n){return "₹"+Number(n||0).toLocaleString("en-IN")}
+function setMsg(id,msg,isError=false){const el=document.getElementById(id);el.textContent=msg;el.className=isError?"status error":"status"}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+async function loadContributions(){
+ if(!sb){document.getElementById("dbStatus").textContent="सेटअप बाकी";return}
+ const {data,error}=await sb.from("contributions").select("*").order("created_at",{ascending:false});
+ if(error){document.getElementById("dbStatus").textContent="त्रुटि";return}
+ contributions=data||[];document.getElementById("dbStatus").textContent="ऑनलाइन";
+ document.getElementById("totalPeople").textContent=contributions.length;
+ document.getElementById("totalAmount").textContent=rupees(contributions.reduce((s,r)=>s+Number(r.amount||0),0));
+ renderContributions();
+}
+function renderContributions(){
+ const name=(document.getElementById("searchName").value||"").toLowerCase(), block=document.getElementById("searchBlock").value;
+ const rows=contributions.filter(r=>(r.name||"").toLowerCase().includes(name)&&(!block||r.block===block));
+ const general=rows.filter(r=>r.campaign==="general"), diwali=rows.filter(r=>r.campaign==="diwali");
+ document.getElementById("contribRows").innerHTML=general.length?general.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.block)}</td><td>${rupees(r.amount)}</td><td>आर्थिक सहयोग</td></tr>`).join(""):'<tr><td colspan="4">कोई रिकॉर्ड नहीं मिला।</td></tr>';
+ document.getElementById("diwaliRows").innerHTML=diwali.length?diwali.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.block)}</td><td>${rupees(r.amount)}</td></tr>`).join(""):'<tr><td colspan="3">अभी कोई रिकॉर्ड नहीं।</td></tr>';
+}
+document.getElementById("searchName").addEventListener("input",renderContributions);
+document.getElementById("searchBlock").addEventListener("change",renderContributions);
+async function loadGallery(){
+ const box=document.getElementById("galleryGrid"); if(!sb){box.innerHTML="<p>Supabase URL और public key सेट करने के बाद गैलरी सक्रिय होगी।</p>";return}
+ const {data,error}=await sb.from("gallery").select("*").order("event_date",{ascending:false});
+ if(error){box.innerHTML="<p>गैलरी लोड नहीं हुई। डेटाबेस/RLS सेटिंग जाँचें।</p>";return}
+ galleryItems=data||[];
+ box.innerHTML=galleryItems.length?galleryItems.map(g=>`<article class="photo"><img loading="lazy" src="${esc(g.image_url)}" alt="${esc(g.title||"सामग्री वितरण")}"><div class="caption"><b>${esc(g.title||"सामग्री वितरण")}</b>${esc(g.block||"")}${g.event_date?" · "+esc(g.event_date):""}</div></article>`).join(""):"<p>गैलरी में अभी तस्वीरें नहीं हैं।</p>";
+}
+document.getElementById("loginBtn").addEventListener("click",async()=>{
+ if(!sb){setMsg("loginMsg","पहले README में दिए निर्देशों के अनुसार Supabase सेटअप पूरा करें।",true);return}
+ const email=document.getElementById("email").value, password=document.getElementById("password").value;
+ const {data,error}=await sb.auth.signInWithPassword({email,password});
+ if(error){setMsg("loginMsg","लॉगिन नहीं हुआ: "+error.message,true);return}
+ currentUser=data.user;document.getElementById("loginBox").classList.add("hidden");document.getElementById("adminBox").classList.remove("hidden");setMsg("adminMsg","एडमिन लॉगिन सफल।");loadAdminGallery();
+});
+document.getElementById("logoutBtn").addEventListener("click",async()=>{await sb.auth.signOut();currentUser=null;document.getElementById("adminBox").classList.add("hidden");document.getElementById("loginBox").classList.remove("hidden");document.getElementById("loginMsg").textContent="लॉगआउट हो गया।"});
+document.getElementById("addContribution").addEventListener("click",async()=>{
+ if(!sb||!currentUser)return;
+ const record={name:document.getElementById("cName").value.trim(),block:document.getElementById("cBlock").value,amount:Number(document.getElementById("cAmount").value),campaign:document.getElementById("cCampaign").value};
+ if(!record.name||!Number.isFinite(record.amount)||record.amount<0){setMsg("adminMsg","नाम और सही राशि भरें।",true);return}
+ const {error}=await sb.from("contributions").insert(record);
+ if(error){setMsg("adminMsg","रिकॉर्ड सेव नहीं हुआ: "+error.message,true);return}
+ document.getElementById("cName").value="";document.getElementById("cAmount").value="";setMsg("adminMsg","सहयोग रिकॉर्ड सेव हो गया।");await loadContributions();
+});
+document.getElementById("uploadGallery").addEventListener("click",async()=>{
+ if(!sb||!currentUser)return;
+ const files=[...document.getElementById("gFiles").files], title=document.getElementById("gTitle").value.trim(), block=document.getElementById("gBlock").value, event_date=document.getElementById("gDate").value;
+ if(!files.length){setMsg("adminMsg","पहले फोटो चुनें।",true);return}
+ if(files.some(f=>!f.type.startsWith("image/")||f.size>5*1024*1024)){setMsg("adminMsg","केवल फोटो चुनें और हर फोटो 5 MB से कम रखें।",true);return}
+ for(const file of files){
+  const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_"), path=`${Date.now()}-${Math.random().toString(36).slice(2)}-${safe}`;
+  const up=await sb.storage.from("distribution-gallery").upload(path,file,{upsert:false,contentType:file.type});
+  if(up.error){setMsg("adminMsg","फोटो अपलोड नहीं हुई: "+up.error.message,true);return}
+  const {data:pub}=sb.storage.from("distribution-gallery").getPublicUrl(path);
+  const ins=await sb.from("gallery").insert({title,block,event_date,image_url:pub.publicUrl,storage_path:path});
+  if(ins.error){setMsg("adminMsg","फोटो सेव हुई लेकिन विवरण नहीं सेव हुआ: "+ins.error.message,true);return}
+ }
+ document.getElementById("gFiles").value="";setMsg("adminMsg","चुनी गई सभी फोटो गैलरी में अपलोड हो गईं।");await loadGallery();await loadAdminGallery();
+});
+async function loadAdminGallery(){
+ if(!sb||!currentUser)return;
+ const {data,error}=await sb.from("gallery").select("*").order("created_at",{ascending:false});
+ const box=document.getElementById("adminGallery");if(error){box.innerHTML="<p>एडमिन गैलरी लोड नहीं हुई।</p>";return}
+ box.innerHTML=(data||[]).map(g=>`<article class="photo"><img src="${esc(g.image_url)}" alt=""><div class="caption"><b>${esc(g.title||"सामग्री वितरण")}</b><button class="danger" onclick="deleteGallery('${String(g.id).replace(/'/g,"")}','${String(g.storage_path||"").replace(/'/g,"")}')">फोटो हटाएँ</button></div></article>`).join("")||"<p>अभी कोई फोटो नहीं।</p>";
+}
+window.deleteGallery=async(id,path)=>{
+ if(!confirm("क्या यह फोटो गैलरी से हटानी है?"))return;
+ const {error}=await sb.from("gallery").delete().eq("id",id);if(error){setMsg("adminMsg","फोटो रिकॉर्ड नहीं हटाया: "+error.message,true);return}
+ if(path)await sb.storage.from("distribution-gallery").remove([path]);
+ setMsg("adminMsg","फोटो हटा दी गई।");await loadGallery();await loadAdminGallery();
+};
+if(sb){sb.auth.getSession().then(({data})=>{if(data.session){currentUser=data.session.user;document.getElementById("loginBox").classList.add("hidden");document.getElementById("adminBox").classList.remove("hidden");loadAdminGallery()}});loadContributions();loadGallery();}
+</script>
+</body></html>
